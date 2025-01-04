@@ -15,8 +15,16 @@ function navigateTo(url) {
   renderRoute();
 }
 
+function normalizePath(path) {
+  let res = path.replace(/\/+/g, "/");
+  if (!res.startsWith("/")) res = "/" + res;
+  if (res.length > 1 && res.endsWith("/")) res = res.slice(0, -1);
+  return res;
+}
+
+
 function renderRoute() {
-  const path = window.location.pathname;
+  const path = normalizePath(window.location.pathname);
   const route = Routes[path] || Routes["/home"];
   app.innerHTML = route();
 }
